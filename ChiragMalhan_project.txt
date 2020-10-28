@@ -1,0 +1,32 @@
+import java.sql.*;
+import java.util.ArrayList;
+public class Main {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		//System.out.println("Hello World");
+		ArrayList<Employee> list=new ArrayList<Employee>();
+        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Connection con=DriverManager.getConnection("jdbc:derby:d:/trgdb/empdb");
+        System.out.println("Connection made");
+        Statement st = con.createStatement();
+
+        String sql = "select empid,name,salary from employee";
+
+        ResultSet rs = st.executeQuery(sql);
+        //int i=1;
+        while(rs.next()) {
+        int eid = rs.getInt(1);
+        String name = rs.getString(2);
+        float salary = rs.getFloat(3);
+        list.add(new Employee(eid,name,salary));
+        
+        }
+        for(int i=0;i<list.size();i++) {
+        	list.get(i).show();
+        }
+
+        con.close();
+	}
+
+}
