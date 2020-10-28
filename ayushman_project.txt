@@ -1,0 +1,86 @@
+package project10;
+
+import java.sql.*;
+import java.util.*;
+
+public class Project10 {
+
+    public static void main(String[] args) throws ClassNotFoundException,SQLException{
+
+        Scanner input = new Scanner(System.in);
+        
+        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Connection con = DriverManager.getConnection("jdbc:derby:/home/ayushman98/firstdb");
+        System.out.println("Connection Established!");
+                
+        
+        // Take User Input And Add Data To Employee Table
+        
+        String sql = "insert into employee values (?,?,?,?)";
+        PreparedStatement pst = con.prepareStatement(sql);        
+        
+        while(true){
+            System.out.println("Enter Space Seperated Employee Details [Enter 'quit' to exit] ");
+            String ans = input.nextLine();
+                        
+            if(ans.equals("quit")){
+                break;
+            }
+            
+            pst.setInt(1,Integer.parseInt(ans.split(" ")[0]));
+            pst.setString(2,ans.split(" ")[1]);
+            pst.setFloat(3,Float.parseFloat(ans.split(" ")[2]));
+            pst.setString(4,ans.split(" ")[3]);
+            
+            pst.executeUpdate();
+            
+        }
+        
+        
+        // Extract Eployee Data From Table And Fill Employee List
+        
+        String sql2 = "select * from employee";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Employee");
+        ArrayList<Employee> emp_list = new ArrayList<Employee>();
+        
+        while(rs.next()){
+            emp_list.add(new Employee(rs.getInt(1),rs.getString(2),rs.getFloat(3),rs.getString(4)));
+            //System.out.println(">> "+rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4)+" ");
+        }
+        
+        
+        // Display Employee Data From List
+        
+        System.out.println("Employee Data From EMP_LIST :");
+        for(int i=0;i<emp_list.size();i++){
+            Employee e = emp_list.get(i);
+            e.show();
+        }
+        
+        con.close();
+        
+    }
+    
+}
+
+
+class Employee{
+    int empid;
+    String name;
+    Float salary;
+    String dob;
+    
+    public Employee(int e, String n, float s, String d){
+        this.empid = e;
+        this.name = n;
+        this.salary = s;
+        this.dob = d;
+    }
+    
+    public void show(){
+        System.out.println(this.empid + " - " + this.name + " " + this.salary + " "+ this.dob);
+    }
+    
+}
+
