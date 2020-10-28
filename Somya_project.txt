@@ -1,0 +1,39 @@
+package project11;
+
+import java.sql.*;
+import java.util.*;
+
+public class Main {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:d:/trgdb/empdb");
+		System.out.println("Connection established successfully!!!");
+
+		ArrayList<Employee> empList = new ArrayList<>();
+
+		Statement stmt = con.createStatement();
+
+		String query = "Select empid, name, salary from Employee";
+
+		ResultSet rs = stmt.executeQuery(query);
+
+		while (rs.next()) {
+
+			int empid = rs.getInt(1);
+			String name = rs.getString(2);
+			float salary = rs.getFloat(3);
+
+			Employee emp = new Employee(empid, name, salary);
+			empList.add(emp);
+		}
+
+		for (Employee emp : empList) {
+			e.show();
+		}
+		con.close();
+
+	}
+
+}
