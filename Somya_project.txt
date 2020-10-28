@@ -7,8 +7,8 @@ public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
-		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		Connection con = DriverManager.getConnection("jdbc:derby:d:/trgdb/empdb");
+		//Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:e:/trgdb/empdb");
 		System.out.println("Connection established successfully!!!");
 
 		ArrayList<Employee> empList = new ArrayList<>();
@@ -21,16 +21,16 @@ public class Main {
 
 		while (rs.next()) {
 
-			int empid = rs.getInt(1);
+			int empId = rs.getInt(1);
 			String name = rs.getString(2);
 			float salary = rs.getFloat(3);
 
-			Employee emp = new Employee(empid, name, salary);
+			Employee emp = new Employee(empId, name, salary);
 			empList.add(emp);
 		}
 
 		for (Employee emp : empList) {
-			e.show();
+			emp.show();
 		}
 		con.close();
 
