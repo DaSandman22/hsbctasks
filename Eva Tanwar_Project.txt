@@ -1,0 +1,85 @@
+package project11;
+
+import java.sql.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main1 {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+	
+		Connection con = DriverManager.getConnection("jdbc:derby:d:/trgdb/empdb");
+		
+		ArrayList<employee> emp = new ArrayList<employee>();
+		Statement st = con.createStatement();
+		
+
+		
+		
+		int eid;
+		String nm,dob;
+		float sl;
+		
+		Scanner sc = new Scanner(System.in);
+		
+		
+		
+		String sql = "insert into employee values(?,?,?,?)";
+		PreparedStatement pst = con.prepareStatement(sql);
+		
+		
+		
+		while(true)
+		{
+			System.out.println("ENTER EMPLOYEE ID: ");
+			eid = sc.nextInt();
+			if(eid==0) break;
+			System.out.println("ENTER EMPLOYEE NAME: ");
+			nm = sc.next();
+			System.out.println("ENTER EMPLOYEE SALARY: ");
+			sl=sc.nextFloat();
+			System.out.println("ENTER EMPLOYEE DATE OF BIRTH: ");
+			dob=sc.next();
+			
+			pst.setInt(1, eid);
+			pst.setString(2, nm);
+			pst.setFloat(3, sl);
+			pst.setString(4, dob);
+			
+			pst.executeUpdate();
+		}
+		
+		
+		
+	 sql="select empid,name,salary,dob from employee";
+		ResultSet rs = st.executeQuery(sql);
+		
+		while(rs.next()) {
+			
+			int empid = rs.getInt(1);
+			String name = rs.getString(2);
+			Float sal= rs.getFloat(3);
+			String d = rs.getString(4);
+			
+			employee e = new employee(name,d,empid,sal);
+			
+			
+			emp.add(e);
+			
+		}
+		
+		for(int i=0;i<emp.size();i++)
+		{
+			employee e = emp.get(i);
+			e.display();
+		}
+		
+		
+
+		
+		con.close();
+				
+	}
+
+}
