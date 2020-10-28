@@ -4,7 +4,7 @@ package task1_day3;
 import java.sql.*;
 import java.util.*;
 
-class employee {
+class Employee {
 
 	private int empID;
 	private String name;
@@ -70,7 +70,7 @@ public class Main {
 		Statement st = con.createStatement();
 		String query = "select empid,name,salary from employee";
 		
-		ArrayList<employee> employeeList = new ArrayList<employee>();
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 		
 		ResultSet rs = st.executeQuery(query);
 			
@@ -84,7 +84,7 @@ public class Main {
 		}
 		
 		// print all the employees
-		for(employee e : employeeList)
+		for(Employee e : employeeList)
 		{
 			System.out.println("................");
 			e.show();
