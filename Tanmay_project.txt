@@ -78,9 +78,9 @@ public class Main {
 		while(rs.next())
 		{
 			int eid = rs.getInt(1);
-			String nam = rs.getString(2);
-			float sal = rs.getFloat(3);
-			employeeList.add(new employee(eid,nam,sal));
+			String name = rs.getString(2);
+			float salary = rs.getFloat(3);
+			employeeList.add(new employee(eid,name,salary));
 		}
 		
 		// print all the employees
