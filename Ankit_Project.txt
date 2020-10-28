@@ -27,6 +27,8 @@ public class Main {
 					System.out.println( emplist.get(i).getEmpid() + " " + emplist.get(i).getName() + " " + emplist.get(i).getSalary() + " " + emplist.get(i).getDob()  );
 			}
 			
+			myCon.close();
+			
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
