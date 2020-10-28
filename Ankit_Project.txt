@@ -1,0 +1,97 @@
+Ankit Singh Bisen- Task Submission
+PS: Sorry for using MySql instead of Derby. I was facing problems with version compatibility of derby in Linux Mint JDK version.
+
+***************************
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class Main {
+	public static void main(String[] args) {
+		try {
+			String dbUrl="jdbc:mysql://localhost:3306/training";
+			String username="root";
+			String password="123456";
+			
+			Connection myCon = DriverManager.getConnection(dbUrl,username,password);
+			Statement myStat=  myCon.createStatement(); 
+			ResultSet myRes=myStat.executeQuery("Select * from employee");
+			ArrayList<emp> emplist=new ArrayList<emp>();
+			
+			while(myRes.next()) {
+				emp e=new emp(myRes.getString("name"),myRes.getInt("empid"),myRes.getInt("salary"),myRes.getString("dob"));
+				emplist.add(e);
+			}
+			
+			for (int i = 0; i < emplist.size(); i++) {
+					System.out.println( emplist.get(i).getEmpid() + " " + emplist.get(i).getName() + " " + emplist.get(i).getSalary() + " " + emplist.get(i).getDob()  );
+			}
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+}
+
+
+public class emp {
+
+	private String name;
+	private int empid;
+	private int salary;
+	private String dob;
+	
+	
+	public emp(String name, int empid, int salary, String dob) {
+		super();
+		this.name = name;
+		this.empid = empid;
+		this.salary = salary;
+		this.dob = dob;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public int getEmpid() {
+		return empid;
+	}
+
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+
+	public int getSalary() {
+		return salary;
+	}
+
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+
+	public String getDob() {
+		return dob;
+	}
+
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+	
+	
+	
+}
+
