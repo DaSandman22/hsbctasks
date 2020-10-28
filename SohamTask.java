@@ -1,7 +1,23 @@
-package day3Project3Task;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+
+public class Employee {
+	private int empID;
+	private String name;
+	private float salary;
+	
+	public Employee(int empID, String name, float salary) {
+		this.empID = empID;
+		this.name = name;
+		this.salary = salary;
+	}
+	
+	public void show() {
+		System.out.println("Emp ID: "+ empID);
+		System.out.println("Name: "+ name);
+		System.out.println("Salary: "+ salary + "\n");
+	}
+}
 
 public class SohamTask {
 
