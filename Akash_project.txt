@@ -1,0 +1,43 @@
+package project6;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Task {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:G:/trgdb/empdb");
+		System.out.println("Connection success");
+
+		ArrayList<Employee> list = new ArrayList<>();
+		
+		Statement st = con.createStatement(); 
+		String sql = "select empid,name,salary from employee";
+		ResultSet rs = st.executeQuery(sql);
+		
+		while(rs.next()){
+			int empid = rs.getInt(1);
+			String name = rs.getString(2);
+			float salary = rs.getFloat(3);
+			Employee obj = new Employee(empid, name, salary);
+			list.add(obj);
+		}
+		
+		for(Employee obj : list){
+			System.out.println("Employee Id : " + obj.getEmpId());
+			System.out.println("Employee Name : " + obj.getName());
+			System.out.println("Employee salary : " + obj.getSalary());
+			System.out.println("_______________________");
+		}
+		con.close();
+	
+	}
+
+}
