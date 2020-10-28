@@ -1,0 +1,38 @@
+import java.sql.*;
+import java.util.ArrayList;
+
+public class Main {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = (Connection) DriverManager.getConnection("jdbc:derby:D:/HSBC/JDBC/empdb");
+		System.out.println("Connection established");
+		
+		ArrayList<Employee> freshers = new ArrayList<Employee>();
+		
+		Statement st = con.createStatement();
+		
+		String sql = "select empid, name, salary from employee";
+		
+		ResultSet rs = st.executeQuery(sql);
+		
+		System.out.println("These are the Employee ids , names and thier Salaries : ");
+		
+		while(rs.next()) {
+			int empid = rs.getInt(1);
+			String name = rs.getString(2);
+			float salary = rs.getFloat(3);
+			Employee e = new Employee(empid, name, salary);
+			freshers.add(e);
+		}
+		
+		con.close();
+		
+		for(Employee emp:freshers) {
+			emp.show();
+		}
+		
+	}
+
+}
