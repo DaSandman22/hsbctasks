@@ -1,0 +1,89 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Employee {
+
+    private int emp_id;
+    private String name;
+    private int salary;
+    private String dob;
+
+    public Employee(int emp_id,String name, int salary, String dob){
+        this.emp_id = emp_id;
+        this.name = name;
+        this.salary = salary;
+        this.dob = dob;
+    
+    }
+
+    public void show() {
+        System.out.println("Employee id: " + emp_id);
+        System.out.println("Name: " + name);
+        System.out.println("Salary: " + salary);
+        System.out.println("DOB: " + dob);
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        //Employee details are taken, Inserted into DB, 
+        //then taken out and shown through show()
+
+        ArrayList<Employee> emList = new ArrayList<Employee>();
+
+        //Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Connection con = DriverManager.getConnection("jdbc:derby:c:/users/saikiran reddy/desktop/empdb;create = true");
+
+        Statement stmt = con.createStatement();
+        String st = "create table employee( emp_id int not null primary key,name varchar(10), salary int,dob varchar(10))";
+
+        stmt.executeUpdate(st);
+        Scanner Sc = new Scanner(System.in);
+
+        String sql = "insert into employee values(?,?,?,?)";
+
+        System.out.println("Need to enter Employee Details or 0 to exit");
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        int x;
+        while(true)
+        {
+            System.out.println("Enter Employee ID :");
+            x = Sc.nextInt();
+            if(x!=0){
+                pst.setInt(1, x);
+                System.out.println("Enter Name: ");
+                pst.setString(2, Sc.next());
+                System.out.println("Enter Salary: ");
+                pst.setInt(3, Sc.nextInt());
+                System.out.println("Enter DOB: ");
+                pst.setString(4, Sc.next());
+
+                pst.executeUpdate();
+
+            }
+            else
+                break;
+        }
+
+        String sl = "select emp_id,name,salary,dob from employee";
+        ResultSet rs = stmt.executeQuery(sl);
+
+        System.out.println("Employee details are parsed will be displayed below");
+        while(rs.next()){
+            int a = rs.getInt("emp_id");
+            String b = rs.getString("name");
+            int c = rs.getInt("salary");
+            String d = rs.getString("dob");
+            
+            emList.add(new Employee(a,b,c,d));
+        }
+        for(Employee y:emList)
+            y.show();
+
+        rs.close();
+        Sc.close();
+
+        con.close();
+    }
+}
