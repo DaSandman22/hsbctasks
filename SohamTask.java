@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Employee {
+class Employee {
 	private int empID;
 	private String name;
 	private float salary;
