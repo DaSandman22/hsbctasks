@@ -1,0 +1,82 @@
+package integration;
+
+import java.sql.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+		
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:c:/trgdb/empdb");
+		System.out.println("Connected sucessfully..");
+				
+		ArrayList<Employee> empList = new ArrayList<Employee>();
+		Scanner sc = new Scanner(System.in);
+		
+		Statement st=con.createStatement();
+		
+		String sql="select eid,name,salary,doj from employee";
+		
+		ResultSet rs = st.executeQuery(sql);
+		
+		while(rs.next()) {
+				empList.add(new Employee(rs.getInt(1),rs.getFloat(3),rs.getString(2),rs.getString(4)));
+		}
+		
+		//Print
+		for(Employee e: empList) {
+			e.show();
+		}
+		sc.close();
+		con.close();
+	}
+}
+
+
+
+
+///Employee Class
+
+package integration;
+
+public class Employee {
+	private int eid;
+	private float salary;
+	private String name;
+	private String doj;
+	public Employee(int eid, float salary, String name, String doj) {
+		super();
+		this.eid = eid;
+		this.salary = salary;
+		this.name = name;
+		this.doj = doj;
+	}
+	public int getEid() {
+		return eid;
+	}
+	public void setEid(int eid) {
+		this.eid = eid;
+	}
+	public float getSalary() {
+		return salary;
+	}
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDoj() {
+		return doj;
+	}
+	public void setDoj(String doj) {
+		this.doj = doj;
+	}
+	public void show() {
+		System.out.println("eid: "+eid +" name: "+name +" salary: "+ salary +" doj: "+doj);
+	}
+	
+}
