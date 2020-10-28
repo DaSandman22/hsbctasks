@@ -1,0 +1,44 @@
+import java.util.*;
+import java.sql.*;
+
+public class Main2{
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:E:/trgdb/empdb");
+		
+		Statement st = con.createStatement();
+		
+		int eid[]= {111,222,333,444};
+		String nm[]= {"W","X","Y","Z"};
+		float sal[]= {20000,21000,22000,23000};
+		String dob[]={"1988-1-1","1988-2-1","1988-3-1","1988-4-1"};
+		
+		String s = "insert into employee values(?,?,?,?)";
+		PreparedStatement pst = con.prepareStatement(s);
+		
+		for(int i=0;i<eid.length;i++) {
+			pst.setInt(1, eid[i]);
+			pst.setString(2, nm[i]);
+			pst.setFloat(3, sal[i]);
+			pst.setString(4, dob[i]);
+			pst.executeUpdate();
+		}
+		
+		String sql = "select empid,name,salary from employee";
+		
+		ResultSet rs = st.executeQuery(sql);
+		ArrayList<Employee> Em = new ArrayList<Employee>();
+		while(rs.next()) {
+			int ed=rs.getInt(1);
+			String nam= rs.getString(2);
+			float sl = rs.getFloat(3);
+			Employee emp = new Employee(ed, nam, sl);
+			Em.add(emp);
+		}
+		for(Employee x: Em) {
+			x.show();
+		}
+		con.close();
+	}
+}
