@@ -1,0 +1,92 @@
+VIVEK RAJ - 45120069
+Main.java
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class Main {
+
+	public static void main(String[] args) throws SQLException {
+		Connection con=DriverManager.getConnection("jdbc:derby:/home/definite/Downloads/trgdb/empdb");
+		ArrayList<Employee> emp= new ArrayList<Employee>();
+		
+		Statement st=con.createStatement();
+		String sql="select * from employee";
+		ResultSet rs = st.executeQuery(sql);
+		while(rs.next())
+		{
+			emp.add(new Employee(rs.getInt(1),rs.getString(2),rs.getFloat(3),rs.getString(4)));
+		}
+		for(Employee e:emp)
+		{
+			e.show();
+			System.out.println("\n");
+		}
+	}
+
+}
+
+Employee.java
+
+public class Employee {
+	private int empId;
+	private String name;
+	private float salary;
+	private String dob;
+	public int getEmpId() {
+		return empId;
+	}
+ 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public float getSalary() {
+		return salary;
+	}
+	public String getDob() {
+		return dob;
+	}
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+	public Employee(int empId, String name, float salary, String dob) {
+		this.empId = empId;
+		this.name = name;
+		this.salary = salary;
+		this.dob=dob;
+	}
+	public void show()
+	{
+		System.out.println("Emp id: "+ empId);
+		System.out.println("Name: "+ name);
+		System.out.println("Salary: "+ salary);
+		System.out.println("DOB: "+ dob);
+	}
+
+	public Employee(int empId, String name) {
+		super();
+		this.empId = empId;
+		this.name = name;
+		this.salary=10000;
+	}
+	public Employee()
+	{
+		
+	}
+	public void increment(int per)
+	{
+		salary=salary+salary*per/100;
+	}
+}
+
+
+
+
+
