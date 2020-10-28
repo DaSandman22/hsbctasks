@@ -1,0 +1,94 @@
+package task1_day3;
+
+
+import java.sql.*;
+import java.util.*;
+
+class employee {
+
+	private int empID;
+	private String name;
+	private float salary;
+	
+	public int getEmpID() {
+		return empID;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public float getSalary() {
+		return salary;
+	}
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+	
+	public employee(int empID, String name, float salary) {
+		super();
+		this.empID = empID;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	public employee(int empID, String name) {
+		super();
+		this.empID = empID;
+		this.name = name;
+		salary = 10000;
+	}
+	
+	
+	
+	public void show()
+	{
+		System.out.println("Employee Id : "+empID);
+		System.out.println("Name : "+name);
+		System.out.println("Salary : "+salary);		
+	}
+	
+	public void increment(int per)
+	{
+		this.salary = this.salary+ (this.salary*per)/100;
+	}
+
+}
+
+public class Main {
+
+	public static void main(String[] args) throws SQLException {
+	
+		// attach derby database
+		Connection con = DriverManager.getConnection("jdbc:derby:/Home/Hsbc/Java/project");
+		System.out.println("Connection created successfully");
+		
+		// create sql statement
+		Statement st = con.createStatement();
+		String query = "select empid,name,salary from employee";
+		
+		ArrayList<employee> employeeList = new ArrayList<employee>();
+		
+		ResultSet rs = st.executeQuery(query);
+			
+		// add all employees in the employeelist
+		while(rs.next())
+		{
+			int eid = rs.getInt(1);
+			String nam = rs.getString(2);
+			float sal = rs.getFloat(3);
+			employeeList.add(new employee(eid,nam,sal));
+		}
+		
+		// print all the employees
+		for(employee e : employeeList)
+		{
+			System.out.println("................");
+			e.show();
+		}
+	}
+
+}
