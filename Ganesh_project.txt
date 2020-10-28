@@ -1,6 +1,27 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+
+public class Employee {
+	private int empId;
+	private String name;
+	private float salary;
+	
+	public Employee(int empId, String name, float salary) {
+		this.empId = empId;
+		this.name = name;
+		this.salary = salary;
+	}
+	
+	public void show() {
+		System.out.print(empId + "  ");
+		System.out.print(name + "  ");
+		System.out.println(salary);
+	}
+	
+}
+
+
 public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
