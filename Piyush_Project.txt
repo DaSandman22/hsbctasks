@@ -1,0 +1,53 @@
+package day3;
+
+import java.sql.*;
+import java.util.*;
+
+class Employee {
+	int empid;
+	String empname;
+	float empsal;
+	
+	Employee(int eid, String name, float sal) {
+		empid = eid;
+		empname = name;
+		empsal = sal;
+	}
+	
+	public void display() {
+		System.out.println(empid+" "+empname+" "+empsal);
+	}
+}
+
+public class DB {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con = DriverManager.getConnection("jdbc:derby:d:/trgbd/empdb");
+		System.out.println("Connection Successful!");
+		
+		Statement st = con.createStatement();
+		
+		String sql = "select empid, name, salary from employee";
+		
+		ResultSet rs = st.executeQuery(sql);
+		
+		ArrayList<Employee> list = new ArrayList<>();
+		
+		while(rs.next()) {
+			int eid = rs.getInt(1);
+			String name = rs.getString(2);
+			float sal = rs.getFloat(3);
+			
+			list.add(new Employee(eid,name,sal));
+		}
+		
+		con.close();
+		
+		for(Employee e:list) {
+			e.display();
+		}
+	}
+
+}
