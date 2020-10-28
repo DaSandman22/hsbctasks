@@ -1,0 +1,41 @@
+/**
+ * 
+ */
+package try_derby;
+import java.sql.*;
+import java.util.ArrayList;
+
+/**
+ * @author Aanchal_Handa
+ *
+ */
+public class Activity {
+
+	/**
+	 * @param args
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
+	 */
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con=DriverManager.getConnection("jdbc:derby:e:/trgdb/empdb");
+		System.out.println("connection succesfully created");
+		ArrayList<Employee> arr=new ArrayList<>();
+		Statement st=con.createStatement();
+		
+		String sql="select empid,name,salary,dob from employee";
+		
+		ResultSet rs=st.executeQuery(sql);
+		
+		while(rs.next()) {
+			arr.add(new Employee(rs.getInt(1),rs.getString(2),rs.getFloat(3),rs.getString(4)));
+			
+		}
+		for(Employee x:arr)
+		{	x.show();
+			System.out.println();
+		}
+		}
+	}
+
+
