@@ -1,0 +1,61 @@
+package assign27_10;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.sql.*;
+
+public class jdbcTask {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		ArrayList<Emp> empArray = new ArrayList<Emp>();
+
+		Scanner sc = new Scanner(System.in);
+		
+		while(true) {
+			
+			int empid = sc.nextInt();
+			sc.nextLine();  
+			// Exit on 0 input
+			if(empid==0) {
+				break;
+			}
+			String name = sc.nextLine();
+			
+			int salary = sc.nextInt();
+			sc.nextLine();  
+			
+			Emp entry = new Emp(empid, name, salary);
+			
+			empArray.add(entry);
+
+		}
+		
+		for(Emp i:empArray) {
+			i.show();
+		}
+		
+		sc.close();
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Connection con=DriverManager.getConnection("jdbc:derby:d:/project/JAVA/trgdb/empdb");
+		System.out.println("connection succesfully created");
+		ArrayList<Emp> emplist=new ArrayList<Emp>();
+		Statement st=con.createStatement();
+		
+		String sql="select empid,name,salary,dob from employee";
+		
+		ResultSet rs=st.executeQuery(sql);
+		
+		while(rs.next()) {
+			emplist.add(new Emp(rs.getInt(1),rs.getString(2),rs.getFloat(3),rs.getString(4)));
+			
+		}
+		for(Emp x:emplist) {	
+			x.show();
+			
+		}
+		
+	}
+	
+}	
+	
